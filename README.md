@@ -85,3 +85,4 @@ The main files will consist of:
 ### Bonus Features
 
 - [ ] Variety of character appearances and allow for user selection
+- [ ] Keep track of scores and allow selection of upper limit
