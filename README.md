@@ -30,13 +30,13 @@ Additionally:
 The game will have 3 main views: pre-game, game, and post-game views that proceed sequentially.
 
 The start screen will explain the rules of the game and show each player's character and controls.
-![wireframes pre-game](public/Pre-Game.png)
+![wireframes pre-game](public/pre-game.png)
 
 During the game, there will be two main components: the canvas on which the game is rendered and the displays of each player's health bar.
-![wireframes game](public/Game.png)
+![wireframes game](public/game.png)
 
 When the game is over, the placements will be displayed along with the character.
-![wireframes post-game](public/Post-Game.png)
+![wireframes post-game](public/post-game.png)
 
 ### Architecture and Technologies
 
