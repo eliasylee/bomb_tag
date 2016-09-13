@@ -1,0 +1,20 @@
+{
+  "name": "bomb_tag",
+  "version": "1.0.0",
+  "description": "### Background",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliasylee/bomb_tag.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eliasylee/bomb_tag/issues"
+  },
+  "homepage": "https://github.com/eliasylee/bomb_tag#readme"
+}
