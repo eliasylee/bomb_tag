@@ -2,7 +2,7 @@ let path = require("path");
 
 module.exports = {
   context: __dirname,
-  entry: "./lib/entry.js",
+  entry: "./lib/bomb_tag.js",
   output: {
     path: './',
     filename: "bundle.js",
@@ -16,7 +16,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          presets: ["es2015", "react"]
+          presets: ["es2015"]
         }
       }
     ]
