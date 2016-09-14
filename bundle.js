@@ -199,10 +199,6 @@
 	      this.features.push(new _feature2.default([565, 180]));
 	      this.features.push(new _feature2.default([635, 180]));
 	      this.features.push(new _feature2.default([705, 180]));
-	      /* Right Middle */
-	      this.features.push(new _feature2.default([845, 320]));
-	      this.features.push(new _feature2.default([915, 320]));
-	      this.features.push(new _feature2.default([985, 320]));
 	      /* Bottom Middle */
 	      this.features.push(new _feature2.default([495, 460]));
 	      this.features.push(new _feature2.default([565, 460]));
@@ -212,6 +208,10 @@
 	      this.features.push(new _feature2.default([215, 320]));
 	      this.features.push(new _feature2.default([285, 320]));
 	      this.features.push(new _feature2.default([355, 320]));
+	      /* Right Middle */
+	      this.features.push(new _feature2.default([845, 320]));
+	      this.features.push(new _feature2.default([915, 320]));
+	      this.features.push(new _feature2.default([985, 320]));
 	    }
 	  }, {
 	    key: 'placeBomb',
@@ -234,53 +234,53 @@
 	        feature.draw(ctx);
 	      });
 	    }
-	  }, {
-	    key: 'checkCollisions',
-	    value: function checkCollisions() {
-	      var chars = this.chars;
-	      var features = this.features;
 	
-	      for (var i = 0; i < chars.length; i++) {
-	        for (var j = 0; j < features.length; j++) {
-	          /* Check each side of the character. */
-	          var charT = chars[i].pos[1] - 5;
-	          var charB = chars[i].pos[1] + 55;
-	          var charL = chars[i].pos[0] - 5;
-	          var charR = chars[i].pos[0] + 55;
+	    // checkCollisions () {
+	    //   let chars = this.chars;
+	    //   let features = this.features;
+	    //
+	    //   for (var i = 0; i < chars.length; i++) {
+	    //     for (var j = 0; j < features.length; j++) {
+	    //       /* Check each side of the character. */
+	    //       let charT = chars[i].pos[1] - 5;
+	    //       let charB = chars[i].pos[1] + 55;
+	    //       let charL = chars[i].pos[0] - 5;
+	    //       let charR = chars[i].pos[0] + 55;
+	    //
+	    //       /* Check each side of the feature. */
+	    //       let featT = features[j].pos[1] - 5;
+	    //       let featB = features[j].pos[1] + 70;
+	    //       let featL = features[j].pos[0] - 5;
+	    //       let featR = features[j].pos[0] + 70;
+	    //
+	    //       if (charT < featB && charT > featT && charL < featR && charL > featL) {
+	    //         chars[i].vel[1] *= -1;
+	    //       }
+	    //
+	    //       if (charT < featB && charT > featT && charR > featL && charR < featR) {
+	    //         chars[i].vel[1] *= -1;
+	    //       }
+	    //
+	    //       if (charB > featT && charB < featB && charL < featR && charL > featL) {
+	    //         // chars[i].vel[1] = 0;
+	    //         chars[i].canJump = true;
+	    //       }
+	    //
+	    //       if (charB > featT && charB < featB && charR > featL && charR < featR) {
+	    //         // chars[i].vel[1] = 0;
+	    //         chars[i].canJump = true;
+	    //       }
+	    //     }
+	    //   }
+	    // }
 	
-	          /* Check each side of the feature. */
-	          var featT = features[j].pos[1] - 5;
-	          var featB = features[j].pos[1] + 70;
-	          var featL = features[j].pos[0] - 5;
-	          var featR = features[j].pos[0] + 70;
-	
-	          if (charT < featB && charT > featT && charL < featR && charL > featL) {
-	            chars[i].vel[1] = 0;
-	            chars[i].jump = true;
-	          }
-	
-	          if (charT < featB && charT > featT && charR > featL && charR < featR) {
-	            chars[i].vel[1] = 0;
-	            chars[i].jump = true;
-	          }
-	
-	          if (charB > featT && charB < featB && charL < featR && charL > featL) {
-	            chars[i].vel[1] = 0;
-	          }
-	
-	          if (charB > featT && charB < featB && charR > featL && charR < featR) {
-	            chars[i].vel[1] = 0;
-	          }
-	        }
-	      }
-	    }
 	  }, {
 	    key: 'step',
 	    value: function step(delta) {
 	      this.chars.forEach(function (char) {
 	        char.move(delta);
 	      });
-	      this.checkCollisions();
+	      // this.checkCollisions();
 	    }
 	  }]);
 	
@@ -339,20 +339,96 @@
 	
 	      this.pos = [this.pos[0] + moveX, this.pos[1] + moveY];
 	
+	      /* Ensure Character position does not pass through borders. */
 	      if (this.pos[0] < 75) {
 	        this.pos[0] = 75;
 	      }
-	
 	      if (this.pos[0] > 1140) {
 	        this.pos[0] = 1140;
 	      }
-	
 	      if (this.pos[1] < 75) {
-	        this.pos[1] = 75;
+	        this.vel[1] *= -0.5;
 	      }
-	
 	      if (this.pos[1] > 580) {
 	        this.pos[1] = 580;
+	        this.canJump = true;
+	      }
+	      /* Ensure Character does not clip through top of features. */
+	      if (this.pos[1] > 125 && this.pos[1] < 215) {
+	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	          this.pos[1] = 125;
+	          this.canJump = true;
+	        }
+	      }
+	      if (this.pos[1] > 265 && this.pos[1] < 355) {
+	        if (this.pos[0] > 160 && this.pos[0] < 430 || this.pos[0] > 790 && this.pos[0] < 1060) {
+	          this.pos[1] = 265;
+	          this.canJump = true;
+	        }
+	      }
+	      if (this.pos[1] > 405 && this.pos[1] < 495) {
+	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	          this.pos[1] = 405;
+	          this.canJump = true;
+	        }
+	      }
+	      /* Ensure Character does not clip through bottom of features. */
+	      if (this.pos[1] < 245 && this.pos[1] > 220) {
+	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	          this.vel[1] *= -1;
+	        }
+	      }
+	      if (this.pos[1] < 385 && this.pos[1] > 365) {
+	        if (this.pos[0] > 160 && this.pos[0] < 430 || this.pos[0] > 790 && this.pos[0] < 1060) {
+	          this.vel[1] *= -1;
+	        }
+	      }
+	      if (this.pos[1] < 525 && this.pos[1] > 495) {
+	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	          this.vel[1] *= -1;
+	        }
+	      }
+	      /* Ensure Character does not clip through right side of features. */
+	      if (this.pos[0] > 205 && this.pos[0] < 215) {
+	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
+	          this.pos[0] = 215;
+	        }
+	      }
+	      if (this.pos[0] > 415 && this.pos[0] < 425) {
+	        if (this.pos[1] > 270 && this.pos[1] < 390) {
+	          this.pos[0] = 425;
+	        }
+	      }
+	      if (this.pos[0] > 765 && this.pos[0] < 775) {
+	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
+	          this.pos[0] = 775;
+	        }
+	      }
+	      if (this.pos[0] > 1045 && this.pos[0] < 1055) {
+	        if (this.pos[1] > 270 && this.pos[1] < 390) {
+	          this.pos[0] = 1055;
+	        }
+	      }
+	      /* Ensure Character does not clip through left side of features. */
+	      if (this.pos[0] > 1005 && this.pos[0] < 1015) {
+	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
+	          this.pos[0] = 1005;
+	        }
+	      }
+	      if (this.pos[0] > 795 && this.pos[0] < 805) {
+	        if (this.pos[1] > 270 && this.pos[1] < 390) {
+	          this.pos[0] = 795;
+	        }
+	      }
+	      if (this.pos[0] > 445 && this.pos[0] < 455) {
+	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
+	          this.pos[0] = 445;
+	        }
+	      }
+	      if (this.pos[0] > 265 && this.pos[0] < 275) {
+	        if (this.pos[1] > 270 && this.pos[1] < 390) {
+	          this.pos[0] = 265;
+	        }
 	      }
 	    }
 	  }, {
@@ -360,9 +436,6 @@
 	    value: function toggleBomb() {
 	      this.bomb = !this.bomb;
 	    }
-	  }, {
-	    key: 'isCollidedWith',
-	    value: function isCollidedWith(object) {}
 	  }, {
 	    key: 'impulse',
 	    value: function impulse(push) {
@@ -374,7 +447,7 @@
 	        this.vel[0] = -15;
 	      }
 	
-	      if (this.canJump) {
+	      if (this.canJump && push[1] !== 0) {
 	        this.canJump = false;
 	        this.vel[1] = push[1];
 	      }
