@@ -9,9 +9,44 @@
     <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
   </head>
   <body>
-    <div id="pre-game">
+    <div id="pre-game" class="hidden">
     </div>
-    <div id="post-game">
+    <div id="post-game" class="hidden">
+      <div className="postGameInnerBox">
+        <div className="placementsBox">
+          <div className="firstPlaceBox">
+            <div className="firstPortraitBox">
+              <div id="firstPortrait"></div>
+            </div>
+            <div className="firstLogo">1<div>st</div></div>
+            <div id="firstPlacePlayer"></div>
+          </div>
+          <div className="secondPlaceBox">
+            <div className="secondPortraitBox">
+              <div id="secondPortrait"></div>
+            </div>
+            <div className="secondLogo">2<div>nd</div></div>
+            <div id="secondPlacePlayer"></div>
+          </div>
+          <div className="thirdPlaceBox">
+            <div className="thirdPortraitBox">
+              <div id="thirdPortrait"></div>
+            </div>
+            <div className="thirdLogo">3<div>rd</div></div>
+            <div id="thirdPlacePlayer"></div>
+          </div>
+          <div className="fourthPlaceBox">
+            <div className="fourthPortraitBox">
+              <div id="fourthPortrait"></div>
+            </div>
+            <div className="fourthLogo">4<div>th</div></div>
+            <div id="fourthPlacePlayer"></div>
+          </div>
+        </div>
+        <div id="continueBox">
+          Press Space to Continue
+        </div>
+      </div>
     </div>
     <div class="window">
       <canvas id="game-canvas"></canvas>
