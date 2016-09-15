@@ -50,7 +50,7 @@
 	
 	var _game2 = _interopRequireDefault(_game);
 	
-	var _game_view = __webpack_require__(3);
+	var _game_view = __webpack_require__(4);
 	
 	var _game_view2 = _interopRequireDefault(_game_view);
 	
@@ -83,7 +83,7 @@
 	
 	var _character2 = _interopRequireDefault(_character);
 	
-	var _feature = __webpack_require__(5);
+	var _feature = __webpack_require__(3);
 	
 	var _feature2 = _interopRequireDefault(_feature);
 	
@@ -96,7 +96,9 @@
 	    _classCallCheck(this, Game);
 	
 	    this.chars = [];
+	    this.removedChars = [];
 	    this.features = [];
+	    this.gameOver = false;
 	
 	    this.addChars();
 	    this.addFeatures();
@@ -108,18 +110,19 @@
 	
 	  _createClass(Game, [{
 	    key: 'step',
-	    value: function step(timeDelta) {
+	    value: function step(delta) {
 	      this.chars.forEach(function (char) {
-	        char.move(timeDelta);
+	        char.move(delta);
 	      });
+	      this.checkCollisions();
 	    }
 	  }, {
 	    key: 'addChars',
 	    value: function addChars() {
-	      this.chars.push(new _character2.default('#ffff66', [200, 580]));
-	      this.chars.push(new _character2.default('#00ff99', [300, 580]));
-	      this.chars.push(new _character2.default('#0099ff', [300, 580]));
-	      this.chars.push(new _character2.default('#ff66ff', [300, 580]));
+	      this.chars.push(new _character2.default("Player 1", '#ffff66', [607, 130]));
+	      this.chars.push(new _character2.default("Player 2", '#00ff99', [607, 410]));
+	      this.chars.push(new _character2.default("Player 3", '#0099ff', [293, 270]));
+	      this.chars.push(new _character2.default("Player 4", '#ff66ff', [923, 270]));
 	    }
 	  }, {
 	    key: 'addFeatures',
@@ -216,8 +219,29 @@
 	  }, {
 	    key: 'placeBomb',
 	    value: function placeBomb() {
-	      var ranNum = Math.floor(Math.random(0, this.chars.length));
+	      var ranNum = Math.floor(Math.random(0, 1) * this.chars.length);
 	      this.chars[ranNum].toggleBomb();
+	      setTimeout(this.removeUserWithBomb.bind(this), 6000);
+	    }
+	  }, {
+	    key: 'removeUserWithBomb',
+	    value: function removeUserWithBomb() {
+	      var _this = this;
+	
+	      this.chars.forEach(function (char) {
+	        if (char.bomb) {
+	          _this.removedChars.push(char);
+	
+	          var idx = _this.chars.indexOf(char);
+	          _this.chars.splice(idx, 1);
+	
+	          if (_this.chars.length > 1) {
+	            setTimeout(_this.placeBomb.bind(_this), 1000);
+	          } else {
+	            _this.gameOver = true;
+	          }
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'draw',
@@ -234,53 +258,23 @@
 	        feature.draw(ctx);
 	      });
 	    }
-	
-	    // checkCollisions () {
-	    //   let chars = this.chars;
-	    //   let features = this.features;
-	    //
-	    //   for (var i = 0; i < chars.length; i++) {
-	    //     for (var j = 0; j < features.length; j++) {
-	    //       /* Check each side of the character. */
-	    //       let charT = chars[i].pos[1] - 5;
-	    //       let charB = chars[i].pos[1] + 55;
-	    //       let charL = chars[i].pos[0] - 5;
-	    //       let charR = chars[i].pos[0] + 55;
-	    //
-	    //       /* Check each side of the feature. */
-	    //       let featT = features[j].pos[1] - 5;
-	    //       let featB = features[j].pos[1] + 70;
-	    //       let featL = features[j].pos[0] - 5;
-	    //       let featR = features[j].pos[0] + 70;
-	    //
-	    //       if (charT < featB && charT > featT && charL < featR && charL > featL) {
-	    //         chars[i].vel[1] *= -1;
-	    //       }
-	    //
-	    //       if (charT < featB && charT > featT && charR > featL && charR < featR) {
-	    //         chars[i].vel[1] *= -1;
-	    //       }
-	    //
-	    //       if (charB > featT && charB < featB && charL < featR && charL > featL) {
-	    //         // chars[i].vel[1] = 0;
-	    //         chars[i].canJump = true;
-	    //       }
-	    //
-	    //       if (charB > featT && charB < featB && charR > featL && charR < featR) {
-	    //         // chars[i].vel[1] = 0;
-	    //         chars[i].canJump = true;
-	    //       }
-	    //     }
-	    //   }
-	    // }
-	
 	  }, {
-	    key: 'step',
-	    value: function step(delta) {
-	      this.chars.forEach(function (char) {
-	        char.move(delta);
-	      });
-	      // this.checkCollisions();
+	    key: 'checkCollisions',
+	    value: function checkCollisions() {
+	      var chars = this.chars;
+	
+	      for (var i = 0; i < chars.length; i++) {
+	        for (var j = i + 1; j < chars.length; j++) {
+	          if (Math.abs(chars[i].pos[0] - chars[j].pos[0]) < 40) {
+	            if (Math.abs(chars[i].pos[1] - chars[j].pos[1]) < 40) {
+	              if (chars[i].bomb && !chars[j].invulnerable || chars[j].bomb && !chars[i].invulnerable) {
+	                chars[i].toggleBomb();
+	                chars[j].toggleBomb();
+	              }
+	            }
+	          }
+	        }
+	      }
 	    }
 	  }]);
 	
@@ -304,16 +298,21 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Character = function () {
-	  function Character(color, pos) {
+	  function Character(player, color, pos) {
 	    _classCallCheck(this, Character);
 	
+	    this.player = player;
 	    this.color = color;
 	    this.border = 'black';
 	    this.pos = pos;
 	    this.vel = [0, 0];
 	    this.bomb = false;
 	    this.canJump = true;
+	    this.invulnerable = false;
+	    this.flash = 0;
+	
 	    this.toggleBomb = this.toggleBomb.bind(this);
+	    this.toggleInvulnerable = this.toggleInvulnerable.bind(this);
 	  }
 	
 	  _createClass(Character, [{
@@ -323,15 +322,30 @@
 	      ctx.rect(this.pos[0], this.pos[1], 50, 50);
 	      ctx.fillStyle = this.color;
 	      ctx.fill();
-	      ctx.lineWidth = 5;
-	      ctx.strokeStyle = this.border;
+	      if (this.bomb && this.flash < 10) {
+	        ctx.lineWidth = 10;
+	        ctx.strokeStyle = 'red';
+	        ctx.font = "30px Arial";
+	        ctx.fillStyle = 'red';
+	        ctx.fillText("B", this.pos[0] + 15, this.pos[1] + 35);
+	        this.flash += 1;
+	      } else if (this.bomb) {
+	        ctx.lineWidth = 1;
+	        ctx.strokeStyle = 'white';
+	        this.flash = 0;
+	      } else {
+	        ctx.lineWidth = 5;
+	        ctx.strokeStyle = this.border;
+	      }
 	      ctx.stroke();
 	    }
 	  }, {
 	    key: 'move',
 	    value: function move(timeDelta) {
 	      this.gravity();
-	      this.friction();
+	      if (this.canJump) {
+	        this.friction();
+	      }
 	
 	      var time = timeDelta / NORMAL_FRAME_TIME_DELTA;
 	      var moveX = this.vel[0] * time;
@@ -355,79 +369,79 @@
 	      }
 	      /* Ensure Character does not clip through top of features. */
 	      if (this.pos[1] > 125 && this.pos[1] < 215) {
-	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	        if (this.pos[0] < 215 || this.pos[0] > 445 && this.pos[0] < 775 || this.pos[0] > 1005) {
 	          this.pos[1] = 125;
 	          this.canJump = true;
 	        }
 	      }
 	      if (this.pos[1] > 265 && this.pos[1] < 355) {
-	        if (this.pos[0] > 160 && this.pos[0] < 430 || this.pos[0] > 790 && this.pos[0] < 1060) {
+	        if (this.pos[0] > 165 && this.pos[0] < 425 || this.pos[0] > 795 && this.pos[0] < 1055) {
 	          this.pos[1] = 265;
 	          this.canJump = true;
 	        }
 	      }
 	      if (this.pos[1] > 405 && this.pos[1] < 495) {
-	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
+	        if (this.pos[0] < 215 || this.pos[0] > 445 && this.pos[0] < 775 || this.pos[0] > 1005) {
 	          this.pos[1] = 405;
 	          this.canJump = true;
 	        }
 	      }
-	      /* Ensure Character does not clip through bottom of features. */
-	      if (this.pos[1] < 245 && this.pos[1] > 220) {
-	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
-	          this.vel[1] *= -1;
-	        }
-	      }
-	      if (this.pos[1] < 385 && this.pos[1] > 365) {
-	        if (this.pos[0] > 160 && this.pos[0] < 430 || this.pos[0] > 790 && this.pos[0] < 1060) {
-	          this.vel[1] *= -1;
-	        }
-	      }
-	      if (this.pos[1] < 525 && this.pos[1] > 495) {
-	        if (this.pos[0] < 220 || this.pos[0] > 440 && this.pos[0] < 780 || this.pos[0] > 1000) {
-	          this.vel[1] *= -1;
-	        }
-	      }
 	      /* Ensure Character does not clip through right side of features. */
-	      if (this.pos[0] > 205 && this.pos[0] < 215) {
+	      if (this.pos[0] > 185 && this.pos[0] < 215) {
 	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
 	          this.pos[0] = 215;
 	        }
 	      }
-	      if (this.pos[0] > 415 && this.pos[0] < 425) {
+	      if (this.pos[0] > 395 && this.pos[0] < 425) {
 	        if (this.pos[1] > 270 && this.pos[1] < 390) {
 	          this.pos[0] = 425;
 	        }
 	      }
-	      if (this.pos[0] > 765 && this.pos[0] < 775) {
+	      if (this.pos[0] > 745 && this.pos[0] < 775) {
 	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
 	          this.pos[0] = 775;
 	        }
 	      }
-	      if (this.pos[0] > 1045 && this.pos[0] < 1055) {
+	      if (this.pos[0] > 1025 && this.pos[0] < 1055) {
 	        if (this.pos[1] > 270 && this.pos[1] < 390) {
 	          this.pos[0] = 1055;
 	        }
 	      }
 	      /* Ensure Character does not clip through left side of features. */
-	      if (this.pos[0] > 1005 && this.pos[0] < 1015) {
+	      if (this.pos[0] > 985 && this.pos[0] < 1015) {
 	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
 	          this.pos[0] = 1005;
 	        }
 	      }
-	      if (this.pos[0] > 795 && this.pos[0] < 805) {
+	      if (this.pos[0] > 775 && this.pos[0] < 805) {
 	        if (this.pos[1] > 270 && this.pos[1] < 390) {
 	          this.pos[0] = 795;
 	        }
 	      }
-	      if (this.pos[0] > 445 && this.pos[0] < 455) {
+	      if (this.pos[0] > 425 && this.pos[0] < 455) {
 	        if (this.pos[1] > 130 && this.pos[1] < 250 || this.pos[1] > 410 && this.pos[1] < 530) {
 	          this.pos[0] = 445;
 	        }
 	      }
-	      if (this.pos[0] > 265 && this.pos[0] < 275) {
+	      if (this.pos[0] > 245 && this.pos[0] < 275) {
 	        if (this.pos[1] > 270 && this.pos[1] < 390) {
 	          this.pos[0] = 265;
+	        }
+	      }
+	      /* Ensure Character does not clip through bottom of features. */
+	      if (this.pos[1] < 245 && this.pos[1] > 220) {
+	        if (this.pos[0] < 215 || this.pos[0] > 445 && this.pos[0] < 775 || this.pos[0] > 1005) {
+	          this.vel[1] *= -1;
+	        }
+	      }
+	      if (this.pos[1] < 385 && this.pos[1] > 365) {
+	        if (this.pos[0] > 165 && this.pos[0] < 425 || this.pos[0] > 795 && this.pos[0] < 1055) {
+	          this.vel[1] *= -1;
+	        }
+	      }
+	      if (this.pos[1] < 525 && this.pos[1] > 495) {
+	        if (this.pos[0] < 215 || this.pos[0] > 445 && this.pos[0] < 775 || this.pos[0] > 1005) {
+	          this.vel[1] *= -1;
 	        }
 	      }
 	    }
@@ -435,6 +449,15 @@
 	    key: 'toggleBomb',
 	    value: function toggleBomb() {
 	      this.bomb = !this.bomb;
+	      if (!this.bomb) {
+	        this.toggleInvulnerable();
+	        setTimeout(this.toggleInvulnerable, 1000);
+	      }
+	    }
+	  }, {
+	    key: 'toggleInvulnerable',
+	    value: function toggleInvulnerable() {
+	      this.invulnerable = !this.invulnerable;
 	    }
 	  }, {
 	    key: 'impulse',
@@ -483,6 +506,47 @@
 /* 3 */
 /***/ function(module, exports) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Feature = function () {
+	  function Feature(pos) {
+	    _classCallCheck(this, Feature);
+	
+	    this.color = '#808080';
+	    this.border = 'black';
+	    this.pos = pos;
+	  }
+	
+	  _createClass(Feature, [{
+	    key: 'draw',
+	    value: function draw(ctx) {
+	      ctx.beginPath();
+	      ctx.rect(this.pos[0], this.pos[1], 65, 65);
+	      ctx.fillStyle = this.color;
+	      ctx.fill();
+	      ctx.lineWidth = 5;
+	      ctx.strokeStyle = this.border;
+	      ctx.stroke();
+	    }
+	  }]);
+	
+	  return Feature;
+	}();
+	
+	exports.default = Feature;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -505,6 +569,8 @@
 	    this.p2 = this.game.chars[1];
 	    this.p3 = this.game.chars[2];
 	    this.p4 = this.game.chars[3];
+	
+	    this.animateAI = this.animateAI.bind(this);
 	  }
 	
 	  _createClass(Gameview, [{
@@ -553,13 +619,82 @@
 	  }, {
 	    key: "animate",
 	    value: function animate(time) {
+	      this.animateAI();
+	
 	      var timeDelta = time - this.lastTime;
 	
 	      this.game.step(timeDelta);
 	      this.game.draw(this.ctx);
 	      this.lastTime = time;
 	
-	      requestAnimationFrame(this.animate.bind(this));
+	      if (this.game.gameOver) {
+	        this.endScreen();
+	      } else {
+	        requestAnimationFrame(this.animate.bind(this));
+	      }
+	    }
+	  }, {
+	    key: "animateAI",
+	    value: function animateAI() {
+	      var _this = this;
+	
+	      var players = this.game.chars;
+	      var aiPlayers = [];
+	
+	      [this.p2, this.p3, this.p4].forEach(function (ai) {
+	        if (_this.game.chars.includes(ai)) {
+	          aiPlayers.push(ai);
+	        }
+	      });
+	
+	      var bomb = void 0;
+	      players.forEach(function (player) {
+	        if (player.bomb) {
+	          bomb = player;
+	        }
+	      });
+	
+	      aiPlayers.forEach(function (aiPlayer) {
+	        if (aiPlayer.bomb) {
+	          (function () {
+	            var closestDistance = void 0;
+	            var directionX = void 0;
+	            var directionY = void 0;
+	
+	            players.forEach(function (player) {
+	              if (player !== aiPlayer) {
+	                var distX = aiPlayer.pos[0] - player.pos[0];
+	                var distY = aiPlayer.pos[1] - player.pos[1];
+	                var distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+	
+	                if (!directionX || distance < closestDistance) {
+	                  directionX = distX;
+	                  directionY = distY;
+	                }
+	              }
+	            });
+	            if (directionY > 0) {
+	              aiPlayer.impulse([0, -20]);
+	            }
+	            if (directionX > 0) {
+	              aiPlayer.impulse([-10, 0]);
+	            } else {
+	              aiPlayer.impulse([10, 0]);
+	            }
+	          })();
+	        } else {
+	          var ran = Math.floor(Math.random(0, 1) * 2);
+	          aiPlayer.impulse(AI_MOVES[ran]);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "endScreen",
+	    value: function endScreen() {
+	      function overlay() {
+	        var el = document.getElementById("post-game");
+	        el.style.visibility = "visible";
+	      }
 	    }
 	  }]);
 	
@@ -567,72 +702,32 @@
 	}();
 	
 	var P1_MOVES = {
-	  "2": [0, -20],
-	  "q": [-15, 0],
-	  "e": [15, 0]
+	  "up": [0, -20],
+	  "left": [-10, 0],
+	  "right": [10, 0]
 	};
 	
 	var P2_MOVES = {
 	  "f": [0, -20],
-	  "c": [-15, 0],
-	  "b": [15, 0]
+	  "c": [-10, 0],
+	  "b": [10, 0]
 	};
 	
 	var P3_MOVES = {
 	  "9": [0, -20],
-	  "i": [-15, 0],
-	  "p": [15, 0]
+	  "i": [-10, 0],
+	  "p": [10, 0]
 	};
 	
 	var P4_MOVES = {
-	  "up": [0, -20],
-	  "left": [-15, 0],
-	  "right": [15, 0]
+	  "2": [0, -20],
+	  "q": [-10, 0],
+	  "e": [10, 0]
 	};
 	
+	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
+	
 	exports.default = Gameview;
-
-/***/ },
-/* 4 */,
-/* 5 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Feature = function () {
-	  function Feature(pos) {
-	    _classCallCheck(this, Feature);
-	
-	    this.color = '#808080';
-	    this.border = 'black';
-	    this.pos = pos;
-	  }
-	
-	  _createClass(Feature, [{
-	    key: 'draw',
-	    value: function draw(ctx) {
-	      ctx.beginPath();
-	      ctx.rect(this.pos[0], this.pos[1], 65, 65);
-	      ctx.fillStyle = this.color;
-	      ctx.fill();
-	      ctx.lineWidth = 5;
-	      ctx.strokeStyle = this.border;
-	      ctx.stroke();
-	    }
-	  }]);
-	
-	  return Feature;
-	}();
-	
-	exports.default = Feature;
 
 /***/ }
 /******/ ]);
