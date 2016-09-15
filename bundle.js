@@ -571,6 +571,7 @@
 	    this.p4 = this.game.chars[3];
 	
 	    this.animateAI = this.animateAI.bind(this);
+	    this.timerAI = 0;
 	  }
 	
 	  _createClass(Gameview, [{
@@ -638,55 +639,56 @@
 	    value: function animateAI() {
 	      var _this = this;
 	
-	      var players = this.game.chars;
-	      var aiPlayers = [];
+	      if (this.timerAI < 25) {
+	        this.timerAI += 1;
+	      } else {
+	        (function () {
+	          var players = _this.game.chars;
+	          var aiPlayers = [];
 	
-	      [this.p2, this.p3, this.p4].forEach(function (ai) {
-	        if (_this.game.chars.includes(ai)) {
-	          aiPlayers.push(ai);
-	        }
-	      });
+	          [_this.p2, _this.p3, _this.p4].forEach(function (ai) {
+	            if (_this.game.chars.includes(ai)) {
+	              aiPlayers.push(ai);
+	            }
+	          });
 	
-	      var bomb = void 0;
-	      players.forEach(function (player) {
-	        if (player.bomb) {
-	          bomb = player;
-	        }
-	      });
+	          aiPlayers.forEach(function (aiPlayer) {
+	            if (aiPlayer.bomb) {
+	              (function () {
+	                var closestDistance = void 0;
+	                var directionX = void 0;
+	                var directionY = void 0;
 	
-	      aiPlayers.forEach(function (aiPlayer) {
-	        if (aiPlayer.bomb) {
-	          (function () {
-	            var closestDistance = void 0;
-	            var directionX = void 0;
-	            var directionY = void 0;
+	                players.forEach(function (player) {
+	                  if (player !== aiPlayer) {
+	                    var distX = aiPlayer.pos[0] - player.pos[0];
+	                    var distY = aiPlayer.pos[1] - player.pos[1];
+	                    var distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 	
-	            players.forEach(function (player) {
-	              if (player !== aiPlayer) {
-	                var distX = aiPlayer.pos[0] - player.pos[0];
-	                var distY = aiPlayer.pos[1] - player.pos[1];
-	                var distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-	
-	                if (!directionX || distance < closestDistance) {
-	                  directionX = distX;
-	                  directionY = distY;
+	                    if (!directionX || distance < closestDistance) {
+	                      directionX = distX;
+	                      directionY = distY;
+	                    }
+	                  }
+	                });
+	                if (directionY > 0) {
+	                  aiPlayer.impulse([0, -20]);
 	                }
-	              }
-	            });
-	            if (directionY > 0) {
-	              aiPlayer.impulse([0, -20]);
-	            }
-	            if (directionX > 0) {
-	              aiPlayer.impulse([-10, 0]);
+	                if (directionX > 0) {
+	                  aiPlayer.impulse([-10, 0]);
+	                } else {
+	                  aiPlayer.impulse([10, 0]);
+	                }
+	              })();
 	            } else {
-	              aiPlayer.impulse([10, 0]);
+	              var ran = Math.floor(Math.random(0, 1) * 3);
+	              aiPlayer.impulse(AI_MOVES[ran]);
 	            }
-	          })();
-	        } else {
-	          var ran = Math.floor(Math.random(0, 1) * 2);
-	          aiPlayer.impulse(AI_MOVES[ran]);
-	        }
-	      });
+	          });
+	
+	          _this.timerAI = 0;
+	        })();
+	      }
 	    }
 	  }, {
 	    key: "endScreen",
