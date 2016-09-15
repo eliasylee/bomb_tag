@@ -56,18 +56,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var startGame = function startGame() {
-	  var canvas = document.getElementById("game-canvas");
-	  canvas.height = 705;
-	  canvas.width = 1265;
-	
-	  var ctx = canvas.getContext('2d');
-	  var game = new _game2.default(canvas.width, canvas.height);
-	
-	  new _game_view2.default(game, ctx).start();
-	};
-	
-	document.addEventListener("DOMContentLoaded", function () {});
+	document.addEventListener("DOMContentLoaded", function () {
+	  new _game_view2.default();
+	});
 
 /***/ },
 /* 1 */
@@ -94,7 +85,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = function () {
-	  function Game(width, height) {
+	  function Game(height, width) {
 	    _classCallCheck(this, Game);
 	
 	    this.chars = [];
@@ -102,8 +93,8 @@
 	    this.features = [];
 	    this.gameOver = false;
 	
-	    this.addChars();
 	    this.addFeatures();
+	    this.addChars();
 	    setTimeout(this.placeBomb.bind(this), 1500);
 	
 	    this.width = width;
@@ -249,7 +240,7 @@
 	    key: 'draw',
 	    value: function draw(ctx) {
 	      ctx.clearRect(0, 0, this.width, this.height);
-	      ctx.fillStyle = '#384444';
+	      ctx.fillStyle = 'black';
 	      ctx.fillRect(0, 0, this.width, this.height);
 	
 	      this.chars.forEach(function (char) {
@@ -562,54 +553,50 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _game = __webpack_require__(1);
+	
+	var _game2 = _interopRequireDefault(_game);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Gameview = function () {
-	  function Gameview(game, ctx) {
-	    _classCallCheck(this, Gameview);
+	var GameView = function () {
+	  function GameView() {
+	    _classCallCheck(this, GameView);
 	
-	    this.game = game;
-	    this.ctx = ctx;
+	    this.canvas = document.getElementById("game-canvas");
+	    this.canvas.height = 705;
+	    this.canvas.width = 1265;
+	
+	    this.game = new _game2.default(705, 1265);
+	    this.ctx = this.canvas.getContext('2d');
+	
 	    this.p1 = this.game.chars[0];
 	    this.p2 = this.game.chars[1];
 	    this.p3 = this.game.chars[2];
 	    this.p4 = this.game.chars[3];
 	
-	    this.animateAI = this.animateAI.bind(this);
+	    this.p1.pos = [607, 130];
+	    this.p2.pos = [607, 410];
+	    this.p3.pos = [293, 270];
+	    this.p4.pos = [923, 270];
 	    this.timerAI = 0;
+	
+	    this.bindKeyHandlers();
 	  }
 	
-	  _createClass(Gameview, [{
+	  _createClass(GameView, [{
 	    key: 'bindKeyHandlers',
 	    value: function bindKeyHandlers() {
-	      var p1 = this.p1;
-	      var p2 = this.p2;
-	      var p3 = this.p3;
-	      var p4 = this.p4;
+	      var _this = this;
 	
 	      Object.keys(P1_MOVES).forEach(function (k) {
 	        var push = P1_MOVES[k];
 	        key(k, function () {
-	          return p1.impulse(push);
+	          return _this.p1.impulse(push);
 	        });
 	      });
-	
-	      // Object.keys(P2_MOVES).forEach(k => {
-	      //   let push = P2_MOVES[k];
-	      //   key(k, () => p2.impulse(push) );
-	      // });
-	      //
-	      // Object.keys(P3_MOVES).forEach(k => {
-	      //   let push = P3_MOVES[k];
-	      //   key(k, () => p3.impulse(push) );
-	      // });
-	      //
-	      // Object.keys(P4_MOVES).forEach(k => {
-	      //   let push = P4_MOVES[k];
-	      //   key(k, () => p4.impulse(push) );
-	      // });
 	
 	      key("space", function () {
 	        var preGame = document.getElementById('pre-game');
@@ -619,25 +606,33 @@
 	      });
 	
 	      key("enter", function () {
-	        var preGame = document.getElementById('pre-game');
-	        preGame.className = "hidden";
-	
-	        var canvas = document.getElementById("game-canvas");
-	        canvas.height = 705;
-	        canvas.width = 1265;
-	
-	        var ctx = canvas.getContext('2d');
-	        var game = new Game(canvas.width, canvas.height);
-	
-	        new GameView(game, ctx).start();
+	        _this.reset();
 	      });
 	    }
 	  }, {
 	    key: 'start',
 	    value: function start() {
-	      this.bindKeyHandlers();
+	      this.p1.pos = [607, 130];
+	      this.p2.pos = [607, 410];
+	      this.p3.pos = [293, 270];
+	      this.p4.pos = [923, 270];
 	      this.lastTime = 0;
 	      requestAnimationFrame(this.animate.bind(this));
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      var preGame = document.getElementById('pre-game');
+	      preGame.className = "hidden";
+	
+	      this.game = new _game2.default(705, 1265);
+	
+	      this.p1 = this.game.chars[0];
+	      this.p2 = this.game.chars[1];
+	      this.p3 = this.game.chars[2];
+	      this.p4 = this.game.chars[3];
+	
+	      this.start();
 	    }
 	  }, {
 	    key: 'animate',
@@ -660,17 +655,17 @@
 	  }, {
 	    key: 'animateAI',
 	    value: function animateAI() {
-	      var _this = this;
+	      var _this2 = this;
 	
 	      if (this.timerAI < 25) {
 	        this.timerAI += 1;
 	      } else {
 	        (function () {
-	          var players = _this.game.chars;
+	          var players = _this2.game.chars;
 	          var aiPlayers = [];
 	
-	          [_this.p2, _this.p3, _this.p4].forEach(function (ai) {
-	            if (_this.game.chars.includes(ai)) {
+	          [_this2.p2, _this2.p3, _this2.p4].forEach(function (ai) {
+	            if (_this2.game.chars.includes(ai)) {
 	              aiPlayers.push(ai);
 	            }
 	          });
@@ -709,7 +704,7 @@
 	            }
 	          });
 	
-	          _this.timerAI = 0;
+	          _this2.timerAI = 0;
 	        })();
 	      }
 	    }
@@ -744,7 +739,7 @@
 	    }
 	  }]);
 	
-	  return Gameview;
+	  return GameView;
 	}();
 	
 	var P1_MOVES = {
@@ -753,27 +748,9 @@
 	  "right": [10, 0]
 	};
 	
-	// const P2_MOVES = {
-	//   "w": [ 0, -20],
-	//   "a": [-10,  0],
-	//   "d": [ 10,  0]
-	// };
-	//
-	// const P3_MOVES = {
-	//   "9": [ 0, -20],
-	//   "i": [-10,  0],
-	//   "p": [ 10,  0]
-	// };
-	//
-	// const P4_MOVES = {
-	//   "2": [ 0, -20],
-	//   "q": [-10,  0],
-	//   "e": [ 10,  0]
-	// };
-	
 	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
 	
-	exports.default = Gameview;
+	exports.default = GameView;
 
 /***/ },
 /* 5 */
