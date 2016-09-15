@@ -56,7 +56,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	document.addEventListener("DOMContentLoaded", function () {
+	var startGame = function startGame() {
 	  var canvas = document.getElementById("game-canvas");
 	  canvas.height = 705;
 	  canvas.width = 1265;
@@ -65,7 +65,9 @@
 	  var game = new _game2.default(canvas.width, canvas.height);
 	
 	  new _game_view2.default(game, ctx).start();
-	});
+	};
+	
+	document.addEventListener("DOMContentLoaded", function () {});
 
 /***/ },
 /* 1 */
@@ -119,10 +121,10 @@
 	  }, {
 	    key: 'addChars',
 	    value: function addChars() {
-	      this.chars.push(new _character2.default("Player 1", "#00ff99", "#fff", [607, 130]));
-	      this.chars.push(new _character2.default("Player 2", "#ff66ff", "#fff", [607, 410]));
-	      this.chars.push(new _character2.default("Player 3", "#0099ff", "#fff", [293, 270]));
-	      this.chars.push(new _character2.default("Player 4", "#ffff66", "#fff", [923, 270]));
+	      this.chars.push(new _character2.default("P1", "#00ff99", "#fff", [607, 130]));
+	      this.chars.push(new _character2.default("P2", "#ff66ff", "#fff", [607, 410]));
+	      this.chars.push(new _character2.default("P3", "#0099ff", "#fff", [293, 270]));
+	      this.chars.push(new _character2.default("P4", "#ffff66", "#fff", [923, 270]));
 	    }
 	  }, {
 	    key: 'addFeatures',
@@ -594,25 +596,40 @@
 	        });
 	      });
 	
-	      Object.keys(P2_MOVES).forEach(function (k) {
-	        var push = P2_MOVES[k];
-	        key(k, function () {
-	          return p2.impulse(push);
-	        });
+	      // Object.keys(P2_MOVES).forEach(k => {
+	      //   let push = P2_MOVES[k];
+	      //   key(k, () => p2.impulse(push) );
+	      // });
+	      //
+	      // Object.keys(P3_MOVES).forEach(k => {
+	      //   let push = P3_MOVES[k];
+	      //   key(k, () => p3.impulse(push) );
+	      // });
+	      //
+	      // Object.keys(P4_MOVES).forEach(k => {
+	      //   let push = P4_MOVES[k];
+	      //   key(k, () => p4.impulse(push) );
+	      // });
+	
+	      key("space", function () {
+	        var preGame = document.getElementById('pre-game');
+	        var postGame = document.getElementById('post-game');
+	        preGame.className = "";
+	        postGame.className = "hidden";
 	      });
 	
-	      Object.keys(P3_MOVES).forEach(function (k) {
-	        var push = P3_MOVES[k];
-	        key(k, function () {
-	          return p3.impulse(push);
-	        });
-	      });
+	      key("enter", function () {
+	        var preGame = document.getElementById('pre-game');
+	        preGame.className = "hidden";
 	
-	      Object.keys(P4_MOVES).forEach(function (k) {
-	        var push = P4_MOVES[k];
-	        key(k, function () {
-	          return p4.impulse(push);
-	        });
+	        var canvas = document.getElementById("game-canvas");
+	        canvas.height = 705;
+	        canvas.width = 1265;
+	
+	        var ctx = canvas.getContext('2d');
+	        var game = new Game(canvas.width, canvas.height);
+	
+	        new GameView(game, ctx).start();
 	      });
 	    }
 	  }, {
@@ -652,7 +669,7 @@
 	          var players = _this.game.chars;
 	          var aiPlayers = [];
 	
-	          [_this.p3, _this.p4].forEach(function (ai) {
+	          [_this.p2, _this.p3, _this.p4].forEach(function (ai) {
 	            if (_this.game.chars.includes(ai)) {
 	              aiPlayers.push(ai);
 	            }
@@ -736,23 +753,23 @@
 	  "right": [10, 0]
 	};
 	
-	var P2_MOVES = {
-	  "w": [0, -20],
-	  "a": [-10, 0],
-	  "d": [10, 0]
-	};
-	
-	var P3_MOVES = {
-	  "9": [0, -20],
-	  "i": [-10, 0],
-	  "p": [10, 0]
-	};
-	
-	var P4_MOVES = {
-	  "2": [0, -20],
-	  "q": [-10, 0],
-	  "e": [10, 0]
-	};
+	// const P2_MOVES = {
+	//   "w": [ 0, -20],
+	//   "a": [-10,  0],
+	//   "d": [ 10,  0]
+	// };
+	//
+	// const P3_MOVES = {
+	//   "9": [ 0, -20],
+	//   "i": [-10,  0],
+	//   "p": [ 10,  0]
+	// };
+	//
+	// const P4_MOVES = {
+	//   "2": [ 0, -20],
+	//   "q": [-10,  0],
+	//   "e": [ 10,  0]
+	// };
 	
 	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
 	
