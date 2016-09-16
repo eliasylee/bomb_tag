@@ -4,7 +4,7 @@
 
 [github]: https://eliasylee.github.io/bomb_tag/
 
-Bomb Tag is based on the Bomb Tag level from the game Move or Die. The premise of the game is as follows:
+Bomb Tag is made with Javascript and utilizes HTML5/Canvas for rendering the game. Based on the Bomb Tag level from the game Move or Die, the premise of the game is as follows:
 
 ![image of instructions](public/instructions.png)
 
