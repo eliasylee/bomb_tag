@@ -1,8 +1,4 @@
-![image of logo](https://github.com/eliasylee/bomb_tag/blob/master/public/bomb-tag-logo.mov)
-
-[Bomb Tag live][github]
-
-[github]:
+## Bomb Tag
 
 ### Background
 

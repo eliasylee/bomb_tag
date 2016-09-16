@@ -143,7 +143,7 @@
 	          } else {
 	            setTimeout(function () {
 	              _this.gameOver = true;
-	            }, 1000);
+	            }, 500);
 	          }
 	        }
 	      });
@@ -759,25 +759,23 @@
 	          aiPlayers.forEach(function (aiPlayer) {
 	            if (aiPlayer.bomb) {
 	              (function () {
-	                var closestDistance = void 0;
 	                var directionX = void 0;
 	                var directionY = void 0;
 	
 	                players.forEach(function (player) {
-	                  if (player !== aiPlayer) {
+	                  if (player !== aiPlayer && !directionX) {
 	                    var distX = aiPlayer.pos[0] - player.pos[0];
 	                    var distY = aiPlayer.pos[1] - player.pos[1];
-	                    var distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 	
-	                    if (!directionX || distance < closestDistance) {
-	                      directionX = distX;
-	                      directionY = distY;
-	                    }
+	                    directionX = distX;
+	                    directionY = distY;
 	                  }
 	                });
+	
 	                if (directionY > 0) {
 	                  aiPlayer.impulse([0, -20]);
 	                }
+	
 	                if (directionX > 0) {
 	                  aiPlayer.impulse([-10, 0]);
 	                } else {
@@ -827,12 +825,6 @@
 	
 	  return GameView;
 	}();
-	
-	var P1_MOVES = {
-	  "up": [0, -20],
-	  "left": [-10, 0],
-	  "right": [10, 0]
-	};
 	
 	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
 	
