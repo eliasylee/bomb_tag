@@ -53,6 +53,86 @@ body, html {
 
 /* Pre-Game Screen */
 
+@-webkit-keyframes border-change {
+  0% { border: 2px solid #00ff99; }
+  25% { border: 2px solid #ff66ff; }
+  50% { border: 2px solid #0099ff; }
+  75% { border: 2px solid #ffff66; }
+  100% { border: 2px solid #00ff99; }
+}
+
+@-moz-keyframes border-change {
+  0% { border: 2px solid #00ff99; }
+  25% { border: 2px solid #ff66ff; }
+  50% { border: 2px solid #0099ff; }
+  75% { border: 2px solid #ffff66; }
+  100% { border: 2px solid #00ff99; }
+}
+
+@-ms-keyframes border-change {
+  0% { border: 2px solid #00ff99; }
+  25% { border: 2px solid #ff66ff; }
+  50% { border: 2px solid #0099ff; }
+  75% { border: 2px solid #ffff66; }
+  100% { border: 2px solid #00ff99; }
+}
+
+@-o-keyframes border-change {
+  0% { border: 2px solid #00ff99; }
+  25% { border: 2px solid #ff66ff; }
+  50% { border: 2px solid #0099ff; }
+  75% { border: 2px solid #ffff66; }
+  100% { border: 2px solid #00ff99; }
+}
+
+@-keyframes border-change {
+  0% { border: 2px solid #00ff99; }
+  25% { border: 2px solid #ff66ff; }
+  50% { border: 2px solid #0099ff; }
+  75% { border: 2px solid #ffff66; }
+  100% { border: 2px solid #00ff99; }
+}
+
+@-webkit-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-moz-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-ms-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-o-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
 #pre-game {
   width: 100vw;
   height: 100vh;
@@ -67,7 +147,7 @@ body, html {
 }
 
 .gameTitle {
-  font-size: 150px;
+  font-size: 100px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -79,8 +159,159 @@ body, html {
 }
 
 #bomb {
-  height: 125px;
-  width: 125px;
+  height: 100px;
+  width: 100px;
+  margin-left: 5px;
+}
+
+.instructions {
+  height: 225px;
+  width: 866px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  -webkit-animation: border-change 8s infinite;
+  -moz-animation: border-change 8s infinite;
+  -o-animation: border-change 8s infinite;
+  -ms-animation: border-change 8s infinite;
+  animation: border-change 8s infinite;
+}
+
+.instructionsTitle {
+  width: 100%;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+ol {
+  margin-top: 5px;
+}
+
+li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.listNum {
+  font-weight: bold;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.characters {
+  height: 300px;
+  width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.characters > div {
+  height: 100%;
+  width: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  -webkit-animation: border-change 8s infinite;
+  -moz-animation: border-change 8s infinite;
+  -o-animation: border-change 8s infinite;
+  -ms-animation: border-change 8s infinite;
+  animation: border-change 8s infinite;
+}
+
+.playerNum {
+  margin-left: 10px;
+}
+
+.charOne, .charTwo, .charThree, .charFour {
+  min-height: 50px;
+  min-width: 50px;
+  border: 5px solid #fff;
+  margin-left: auto;
+  margin-right: auto;
+
+  -webkit-animation-name:             rotate;
+  -webkit-animation-duration:         10s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-animation-name:             rotate;
+  -moz-animation-duration:         10s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
+
+  -ms-animation-name:             rotate;
+  -ms-animation-duration:         10s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
+}
+
+.charOne {
+  background-color: #00ff99;
+}
+
+.charTwo {
+  background-color: #ff66ff;
+}
+
+.charThree {
+  background-color: #0099ff;
+}
+
+.charFour {
+  background-color: #ffff66;
+}
+
+.controls {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.jump {
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.upArrow {
+  margin: auto;
+  text-align: center;
+}
+
+.sideArrows {
+  display: flex;
+  justify-content: space-around;
+}
+
+.upArrow, .sideArrow {
+  height: 49px;
+  width: 49px;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.characterTwo, .characterThree, .characterFour {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.AI {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 /* Game Screen */
@@ -118,10 +349,22 @@ body, html {
 }
 
 .placementsBox {
-  width: 100%;
+  width: 80%;
   height: 80%;
+  margin-top: 50px;
+  padding-bottom: 25px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  -webkit-animation: border-change 8s infinite;
+  -moz-animation: border-change 8s infinite;
+  -o-animation: border-change 8s infinite;
+  -ms-animation: border-change 8s infinite;
+  animation: border-change 8s infinite;
+}
+
+.placementsBox > div {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .outerBox {
@@ -129,6 +372,10 @@ body, html {
   flex-direction: column;
   justify-content: flex-end;
   width: 220px;
+}
+
+.outerBoxFour {
+  margin-left: 300px !important;
 }
 
 .outerBox > :nth-child(2) {
@@ -167,16 +414,12 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  -webkit-animation: color-change 8s infinite;
-  -moz-animation: color-change 8s infinite;
-  -o-animation: color-change 8s infinite;
-  -ms-animation: color-change 8s infinite;
-  animation: color-change 8s infinite;
 }
 
 .logoNameBox > div {
   height: 100px;
   width: 100%;
+  font-weight: bold;
   display: flex;
   justify-content: center;
 }
@@ -189,6 +432,12 @@ body, html {
   margin-left: 25px;
   display: flex;
   align-items: center;
+  -webkit-text-stroke: 3px black;
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
 }
 
 .logoNameBox div :nth-child(2) {
@@ -325,46 +574,6 @@ body, html {
   -ms-animation-duration:         50s;
   -ms-animation-iteration-count:  infinite;
   -ms-animation-timing-function:  linear;
-}
-
-@-webkit-keyframes color-change {
-  0% { color: #00ff99; }
-  25% { color: #ff66ff; }
-  50% { color: #0099ff; }
-  75% { color: #ffff66; }
-  100% { color: #00ff99; }
-}
-
-@-moz-keyframes color-change {
-  0% { color: #00ff99; }
-  25% { color: #ff66ff; }
-  50% { color: #0099ff; }
-  75% { color: #ffff66; }
-  100% { color: #00ff99; }
-}
-
-@-ms-keyframes color-change {
-  0% { color: #00ff99; }
-  25% { color: #ff66ff; }
-  50% { color: #0099ff; }
-  75% { color: #ffff66; }
-  100% { color: #00ff99; }
-}
-
-@-o-keyframes color-change {
-  0% { color: #00ff99; }
-  25% { color: #ff66ff; }
-  50% { color: #0099ff; }
-  75% { color: #ffff66; }
-  100% { color: #00ff99; }
-}
-
-@keyframes color-change {
-  0% { color: #00ff99; }
-  25% { color: #ff66ff; }
-  50% { color: #0099ff; }
-  75% { color: #ffff66; }
-  100% { color: #00ff99; }
 }
 
 #continueBox {

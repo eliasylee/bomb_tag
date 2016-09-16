@@ -17,20 +17,42 @@
         MB TAG!
       </div>
       <div class="instructions">
-
+        <div class="instructionsTitle">Instructions</div>
+        <ol>
+          <li><div class="listNum">1.</div> A bomb will latch itself onto a random player and explode after a few seconds, killing the player.</li>
+          <li><div class="listNum">2.</div> Touch another player to pass the bomb to them, causing them to explode if they don't remove the bomb from themselves.</li>
+          <li><div class="listNum">3.</div> The last player alive wins the round.</li>
+          <li class="hint"><div class="listNum">Hint:</div> Hitting the side of a feature will give you an extra vertical boost!</li>
+        </ol>
       </div>
       <div class="characters">
         <div class="characterOne">
-          <div id="charOne"></div>
+          <div class="playerNum">P1</div>
+          <div class="charOne"></div>
+          <div class="controls">
+            <div class="jump">Jump</div>
+            <div class="upArrow">^</div>
+            <div class="sideArrows">
+              <div class="sideArrow"><</div>
+              <div class="sideArrow">></div>
+            </div>
+            <div class="jump">Move</div>
+          </div>
         </div>
         <div class="characterTwo">
-          <div id="charTwo"></div>
+          <div class="playerNum">P2</div>
+          <div class="charTwo"></div>
+          <div class="AI">AI</div>
         </div>
         <div class="characterThree">
-          <div id="charThree"></div>
+          <div class="playerNum">P3</div>
+          <div class="charThree"></div>
+          <div class="AI">AI</div>
         </div>
         <div class="characterFour">
-          <div id="charFour"></div>
+          <div class="playerNum">P4</div>
+          <div class="charFour"></div>
+          <div class="AI">AI</div>
         </div>
       </div>
       <div id="continueBox">
@@ -42,20 +64,6 @@
     <div id="post-game" class="hidden">
       <div class="placementsBox">
         <div class="outerBox">
-          <div class="firstPortraitBox">
-            <div id="firstPlacePlayer"></div>
-            <div id="firstPortrait"></div>
-          </div>
-          <div class="firstPlaceBox">
-            <div class="logoNameBox">
-              <div class="firstLogo">
-                <div>1</div>
-                <div>st</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="outerBox">
           <div class="secondPortraitBox">
             <div id="secondPlacePlayer"></div>
             <div id="secondPortrait"></div>
@@ -65,6 +73,20 @@
               <div class="secondLogo">
                 <div>2</div>
                 <div>nd</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="outerBox">
+          <div class="firstPortraitBox">
+            <div id="firstPlacePlayer"></div>
+            <div id="firstPortrait"></div>
+          </div>
+          <div class="firstPlaceBox">
+            <div class="logoNameBox">
+              <div class="firstLogo">
+                <div>1</div>
+                <div>st</div>
               </div>
             </div>
           </div>
@@ -83,7 +105,7 @@
             </div>
           </div>
         </div>
-        <div class="outerBox">
+        <div class="outerBox outerBoxFour">
           <div class="fourthPortraitBox">
             <div id="fourthPlacePlayer"></div>
             <div id="fourthPortrait"></div>
