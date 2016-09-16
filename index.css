@@ -287,19 +287,35 @@ li {
 
 .upArrow {
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  -webkit-animation: color-change 2s infinite;
+  -moz-animation: color-change 2s infinite;
+  -o-animation: color-change 2s infinite;
+  -ms-animation: color-change 2s infinite;
+  animation: color-change 2s infinite;
 }
 
 .sideArrows {
   display: flex;
   justify-content: space-around;
+  -webkit-animation: color-change 3s infinite;
+  -moz-animation: color-change 3s infinite;
+  -o-animation: color-change 3s infinite;
+  -ms-animation: color-change 3s infinite;
+  animation: color-change 3s infinite;
 }
 
 .upArrow, .sideArrow {
   height: 49px;
   width: 49px;
-  text-align: center;
   border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 .characterTwo, .characterThree, .characterFour {
@@ -508,6 +524,12 @@ li {
   }
 }
 
+@-webkit-keyframes loser {
+  0% { -webkit-transform: rotate(-10deg);}
+  50% { -webkit-transform: rotate(10deg);}
+  100% { -webkit-transform: rotate(-10deg);}
+}
+
 #firstPortrait {
   -webkit-animation-name:             rotate;
   -webkit-animation-duration:         0.5s;
@@ -560,18 +582,18 @@ li {
 }
 
 #fourthPortrait {
-  -webkit-animation-name:             reverse;
-  -webkit-animation-duration:         50s;
+  -webkit-animation-name:             loser;
+  -webkit-animation-duration:         2s;
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
-  -moz-animation-name:             reverse;
-  -moz-animation-duration:         50s;
+  -moz-animation-name:             loser;
+  -moz-animation-duration:         2s;
   -moz-animation-iteration-count:  infinite;
   -moz-animation-timing-function:  linear;
 
-  -ms-animation-name:             reverse;
-  -ms-animation-duration:         50s;
+  -ms-animation-name:             loser;
+  -ms-animation-duration:         2s;
   -ms-animation-iteration-count:  infinite;
   -ms-animation-timing-function:  linear;
 }

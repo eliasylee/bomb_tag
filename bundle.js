@@ -95,7 +95,7 @@
 	
 	    this.addFeatures();
 	    this.addChars();
-	    setTimeout(this.placeBomb.bind(this), 1500);
+	    setTimeout(this.placeBomb.bind(this), 1000);
 	
 	    this.width = width;
 	    this.height = height;
@@ -110,12 +110,72 @@
 	      this.checkCollisions();
 	    }
 	  }, {
+	    key: 'placeBomb',
+	    value: function placeBomb() {
+	      var ranNum = Math.floor(Math.random(0, 1) * this.chars.length);
+	      this.chars[ranNum].toggleBomb();
+	      setTimeout(this.removeUserWithBomb.bind(this), 6000);
+	    }
+	  }, {
+	    key: 'removeUserWithBomb',
+	    value: function removeUserWithBomb() {
+	      var _this = this;
+	
+	      this.chars.forEach(function (char) {
+	        if (char.bomb) {
+	          _this.removedChars.push(char);
+	
+	          var idx = _this.chars.indexOf(char);
+	          _this.chars.splice(idx, 1);
+	
+	          if (_this.chars.length > 1) {
+	            setTimeout(_this.placeBomb.bind(_this), 1000);
+	          } else {
+	            _this.gameOver = true;
+	          }
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'draw',
+	    value: function draw(ctx) {
+	      ctx.clearRect(0, 0, this.width, this.height);
+	      ctx.fillStyle = 'black';
+	      ctx.fillRect(0, 0, this.width, this.height);
+	
+	      this.chars.forEach(function (char) {
+	        char.draw(ctx);
+	      });
+	
+	      this.features.forEach(function (feature) {
+	        feature.draw(ctx);
+	      });
+	    }
+	  }, {
+	    key: 'checkCollisions',
+	    value: function checkCollisions() {
+	      var chars = this.chars;
+	
+	      for (var i = 0; i < chars.length; i++) {
+	        for (var j = i + 1; j < chars.length; j++) {
+	          if (Math.abs(chars[i].pos[0] - chars[j].pos[0]) < 40) {
+	            if (Math.abs(chars[i].pos[1] - chars[j].pos[1]) < 40) {
+	              if (chars[i].bomb && !chars[j].invulnerable || chars[j].bomb && !chars[i].invulnerable) {
+	                chars[i].toggleBomb();
+	                chars[j].toggleBomb();
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }, {
 	    key: 'addChars',
 	    value: function addChars() {
-	      this.chars.push(new _character2.default("P1", "#00ff99", "#fff", [607, 130]));
-	      this.chars.push(new _character2.default("P2", "#ff66ff", "#fff", [607, 410]));
-	      this.chars.push(new _character2.default("P3", "#0099ff", "#fff", [293, 270]));
-	      this.chars.push(new _character2.default("P4", "#ffff66", "#fff", [923, 270]));
+	      this.chars.push(new _character2.default("P1", "#00ff99", "#fff", [285, 710]));
+	      this.chars.push(new _character2.default("P2", "#ff66ff", "#fff", [495, 710]));
+	      this.chars.push(new _character2.default("P3", "#0099ff", "#fff", [705, 710]));
+	      this.chars.push(new _character2.default("P4", "#ffff66", "#fff", [910, 710]));
 	    }
 	  }, {
 	    key: 'addFeatures',
@@ -209,66 +269,6 @@
 	      this.features.push(new _feature2.default([915, 320]));
 	      this.features.push(new _feature2.default([985, 320]));
 	    }
-	  }, {
-	    key: 'placeBomb',
-	    value: function placeBomb() {
-	      var ranNum = Math.floor(Math.random(0, 1) * this.chars.length);
-	      this.chars[ranNum].toggleBomb();
-	      setTimeout(this.removeUserWithBomb.bind(this), 6000);
-	    }
-	  }, {
-	    key: 'removeUserWithBomb',
-	    value: function removeUserWithBomb() {
-	      var _this = this;
-	
-	      this.chars.forEach(function (char) {
-	        if (char.bomb) {
-	          _this.removedChars.push(char);
-	
-	          var idx = _this.chars.indexOf(char);
-	          _this.chars.splice(idx, 1);
-	
-	          if (_this.chars.length > 1) {
-	            setTimeout(_this.placeBomb.bind(_this), 1000);
-	          } else {
-	            _this.gameOver = true;
-	          }
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'draw',
-	    value: function draw(ctx) {
-	      ctx.clearRect(0, 0, this.width, this.height);
-	      ctx.fillStyle = 'black';
-	      ctx.fillRect(0, 0, this.width, this.height);
-	
-	      this.chars.forEach(function (char) {
-	        char.draw(ctx);
-	      });
-	
-	      this.features.forEach(function (feature) {
-	        feature.draw(ctx);
-	      });
-	    }
-	  }, {
-	    key: 'checkCollisions',
-	    value: function checkCollisions() {
-	      var chars = this.chars;
-	
-	      for (var i = 0; i < chars.length; i++) {
-	        for (var j = i + 1; j < chars.length; j++) {
-	          if (Math.abs(chars[i].pos[0] - chars[j].pos[0]) < 40) {
-	            if (Math.abs(chars[i].pos[1] - chars[j].pos[1]) < 40) {
-	              if (chars[i].bomb && !chars[j].invulnerable || chars[j].bomb && !chars[i].invulnerable) {
-	                chars[i].toggleBomb();
-	                chars[j].toggleBomb();
-	              }
-	            }
-	          }
-	        }
-	      }
-	    }
 	  }]);
 	
 	  return Game;
@@ -280,7 +280,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -304,12 +304,24 @@
 	    this.invulnerable = false;
 	    this.flash = 0;
 	
+	    this.upPressed = false;
+	    this.leftPressed = false;
+	    this.rightPressed = false;
+	
 	    this.toggleBomb = this.toggleBomb.bind(this);
 	    this.toggleInvulnerable = this.toggleInvulnerable.bind(this);
+	    this.keyDownHandler = this.keyDownHandler.bind(this);
+	    this.keyUpHandler = this.keyUpHandler.bind(this);
+	    this.handleInput = this.handleInput.bind(this);
+	
+	    if (this.player === "P1") {
+	      document.addEventListener("keydown", this.keyDownHandler, false);
+	      document.addEventListener("keyup", this.keyUpHandler, false);
+	    }
 	  }
 	
 	  _createClass(Character, [{
-	    key: 'draw',
+	    key: "draw",
 	    value: function draw(ctx) {
 	      ctx.beginPath();
 	      ctx.rect(this.pos[0], this.pos[1], 50, 50);
@@ -334,12 +346,36 @@
 	      ctx.stroke();
 	    }
 	  }, {
-	    key: 'move',
+	    key: "keyDownHandler",
+	    value: function keyDownHandler(e) {
+	      if (e.keyCode === 37) {
+	        this.leftPressed = true;
+	      } else if (e.keyCode === 38) {
+	        this.upPressed = true;
+	      } else if (e.keyCode === 39) {
+	        this.rightPressed = true;
+	      }
+	    }
+	  }, {
+	    key: "keyUpHandler",
+	    value: function keyUpHandler(e) {
+	      if (e.keyCode === 37) {
+	        this.leftPressed = false;
+	      } else if (e.keyCode === 38) {
+	        this.upPressed = false;
+	      } else if (e.keyCode === 39) {
+	        this.rightPressed = false;
+	      }
+	    }
+	  }, {
+	    key: "move",
 	    value: function move(timeDelta) {
 	      this.gravity();
 	      if (this.canJump) {
 	        this.friction();
 	      }
+	
+	      this.handleInput();
 	
 	      var time = timeDelta / NORMAL_FRAME_TIME_DELTA;
 	      var moveX = this.vel[0] * time;
@@ -440,7 +476,7 @@
 	      }
 	    }
 	  }, {
-	    key: 'toggleBomb',
+	    key: "toggleBomb",
 	    value: function toggleBomb() {
 	      this.bomb = !this.bomb;
 	      if (!this.bomb) {
@@ -449,12 +485,34 @@
 	      }
 	    }
 	  }, {
-	    key: 'toggleInvulnerable',
+	    key: "toggleInvulnerable",
 	    value: function toggleInvulnerable() {
 	      this.invulnerable = !this.invulnerable;
 	    }
 	  }, {
-	    key: 'impulse',
+	    key: "handleInput",
+	    value: function handleInput() {
+	      if (this.leftPressed) {
+	        this.vel[0] -= 10;
+	      }
+	
+	      if (this.rightPressed) {
+	        this.vel[0] += 10;
+	      }
+	
+	      if (this.vel[0] > 15) {
+	        this.vel[0] = 15;
+	      } else if (this.vel[0] < -15) {
+	        this.vel[0] = -15;
+	      }
+	
+	      if (this.canJump && this.upPressed) {
+	        this.canJump = false;
+	        this.vel[1] = -20;
+	      }
+	    }
+	  }, {
+	    key: "impulse",
 	    value: function impulse(push) {
 	      this.vel[0] += push[0];
 	
@@ -470,7 +528,7 @@
 	      }
 	    }
 	  }, {
-	    key: 'friction',
+	    key: "friction",
 	    value: function friction() {
 	      if (this.vel[0] > 0) {
 	        this.vel[0] -= 0.5;
@@ -481,7 +539,7 @@
 	      }
 	    }
 	  }, {
-	    key: 'gravity',
+	    key: "gravity",
 	    value: function gravity() {
 	      if (this.vel[1] < 20) {
 	        this.vel[1] += 1;
@@ -585,34 +643,30 @@
 	    this.timerAI = 0;
 	
 	    this.view = "pre-game";
-	
-	    this.bindKeyHandlers();
+	    this.keySpaceHandler = this.keySpaceHandler.bind(this);
+	    document.addEventListener("keydown", this.keySpaceHandler, false);
 	  }
 	
 	  _createClass(GameView, [{
-	    key: 'bindKeyHandlers',
-	    value: function bindKeyHandlers() {
-	      var _this = this;
-	
-	      Object.keys(P1_MOVES).forEach(function (k) {
-	        var push = P1_MOVES[k];
-	        key(k, function () {
-	          return _this.p1.impulse(push);
-	        });
-	      });
-	
-	      key("space", function () {
-	        if (_this.view === "pre-game") {
-	          _this.view = "game";
-	          _this.reset();
-	        } else if (_this.view === "post-game") {
-	          _this.view = "pre-game";
-	          var preGame = document.getElementById('pre-game');
-	          var postGame = document.getElementById('post-game');
-	          preGame.className = "";
-	          postGame.className = "hidden";
-	        }
-	      });
+	    key: 'keySpaceHandler',
+	    value: function keySpaceHandler(e) {
+	      if (e.keyCode === 32) {
+	        this.handleSpace();
+	      }
+	    }
+	  }, {
+	    key: 'handleSpace',
+	    value: function handleSpace() {
+	      if (this.view === "pre-game") {
+	        this.view = "game";
+	        this.reset();
+	      } else if (this.view === "post-game") {
+	        this.view = "pre-game";
+	        var preGame = document.getElementById('pre-game');
+	        var postGame = document.getElementById('post-game');
+	        preGame.className = "";
+	        postGame.className = "hidden";
+	      }
 	    }
 	  }, {
 	    key: 'start',
@@ -657,17 +711,17 @@
 	  }, {
 	    key: 'animateAI',
 	    value: function animateAI() {
-	      var _this2 = this;
+	      var _this = this;
 	
-	      if (this.timerAI < 25) {
+	      if (this.timerAI < 10) {
 	        this.timerAI += 1;
 	      } else {
 	        (function () {
-	          var players = _this2.game.chars;
+	          var players = _this.game.chars;
 	          var aiPlayers = [];
 	
-	          [_this2.p2, _this2.p3, _this2.p4].forEach(function (ai) {
-	            if (_this2.game.chars.includes(ai)) {
+	          [_this.p2, _this.p3, _this.p4].forEach(function (ai) {
+	            if (_this.game.chars.includes(ai)) {
 	              aiPlayers.push(ai);
 	            }
 	          });
@@ -706,7 +760,7 @@
 	            }
 	          });
 	
-	          _this2.timerAI = 0;
+	          _this.timerAI = 0;
 	        })();
 	      }
 	    }

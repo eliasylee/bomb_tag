@@ -6,7 +6,6 @@
     <link rel='stylesheet' href='index.css' type='text/css'>
     <script src="./bundle.js"></script>
     <script src="./vendor/keymaster.js"></script>
-    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
   </head>
   <body>
@@ -33,8 +32,8 @@
             <div class="jump">Jump</div>
             <div class="upArrow">^</div>
             <div class="sideArrows">
-              <div class="sideArrow"><</div>
-              <div class="sideArrow">></div>
+              <div class="leftArrow"><</div>
+              <div class="rightArrow">></div>
             </div>
             <div class="jump">Move</div>
           </div>
@@ -130,5 +129,8 @@
       <canvas id="game-canvas"></canvas>
     </div>
     <img id="bomb" src='./public/bomb.png'></img>
+    <input type="text" onkeydown="this.keyDownHandler(event)">
+    <input type="text" onkeydown="this.keySpaceHandler(event)">
+    <input type="text" onkeyup="this.keyUpHandler(event)">
   </body>
 </html>
