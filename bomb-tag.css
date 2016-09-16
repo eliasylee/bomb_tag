@@ -414,7 +414,7 @@ li {
 }
 
 .firstPlaceBox {
-  height: 75%;
+  height: 85%;
   width: 200px;
   background-color: #E8D89E;
 }
@@ -432,7 +432,7 @@ li {
 }
 
 .fourthPlaceBox {
-  height: 15%;
+  height: 17%;
   width: 200px;
   background-color: #828150;
 }
@@ -491,6 +491,10 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.firstPortraitBox {
+  margin-bottom: 20px;
 }
 
 #firstPlacePlayer,

@@ -1,4 +1,6 @@
-## Bomb Tag
+![image of logo](public/)
+
+
 
 ### Background
 
