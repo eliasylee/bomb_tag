@@ -320,7 +320,8 @@
 	        ctx.strokeStyle = 'red';
 	        ctx.font = "30px Arial";
 	        ctx.fillStyle = 'red';
-	        ctx.fillText("B", this.pos[0] + 15, this.pos[1] + 35);
+	        var img = document.getElementById("bomb");
+	        ctx.drawImage(img, this.pos[0] + 10, this.pos[1] + 10, 30, 30);
 	        this.flash += 1;
 	      } else if (this.bomb) {
 	        ctx.lineWidth = 1;
@@ -583,6 +584,8 @@
 	    this.p4.pos = [923, 270];
 	    this.timerAI = 0;
 	
+	    this.view = "pre-game";
+	
 	    this.bindKeyHandlers();
 	  }
 	
@@ -599,23 +602,21 @@
 	      });
 	
 	      key("space", function () {
-	        var preGame = document.getElementById('pre-game');
-	        var postGame = document.getElementById('post-game');
-	        preGame.className = "";
-	        postGame.className = "hidden";
-	      });
-	
-	      key("enter", function () {
-	        _this.reset();
+	        if (_this.view === "pre-game") {
+	          _this.view = "game";
+	          _this.reset();
+	        } else if (_this.view === "post-game") {
+	          _this.view = "pre-game";
+	          var preGame = document.getElementById('pre-game');
+	          var postGame = document.getElementById('post-game');
+	          preGame.className = "";
+	          postGame.className = "hidden";
+	        }
 	      });
 	    }
 	  }, {
 	    key: 'start',
 	    value: function start() {
-	      this.p1.pos = [607, 130];
-	      this.p2.pos = [607, 410];
-	      this.p3.pos = [293, 270];
-	      this.p4.pos = [923, 270];
 	      this.lastTime = 0;
 	      requestAnimationFrame(this.animate.bind(this));
 	    }
@@ -647,6 +648,7 @@
 	
 	      if (this.game.gameOver) {
 	        this.game.removedChars.push(this.game.chars[0]);
+	        this.view = "post-game";
 	        this.endScreen();
 	      } else {
 	        requestAnimationFrame(this.animate.bind(this));

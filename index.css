@@ -57,13 +57,15 @@ body, html {
   width: 100vw;
   height: 100vh;
   font-family: 'Open Sans Condensed', sans-serif;
-  background-color: #384444;
+  background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   z-index: 1;
 }
+
+
 
 /* Game Screen */
 
@@ -104,10 +106,6 @@ body, html {
   height: 80%;
   display: flex;
   justify-content: space-around;
-}
-
-.placementsBox > div {
-
 }
 
 .outerBox {
@@ -186,26 +184,6 @@ body, html {
   justify-content: center;
 }
 
-.logoNameBox div :nth-child(1) div :nth-child(2) {
-
-}
-
-.firstLogo div :nth-child(1) {
-
-}
-
-.secondLogo div :nth-child(1) {
-
-}
-
-.thirdLogo div :nth-child(1) {
-
-}
-
-.fourthLogo div :nth-child(1) {
-
-}
-
 .firstPortraitBox,
 .secondPortraitBox,
 .thirdPortraitBox,
@@ -246,6 +224,15 @@ body, html {
   }
 }
 
+@-webkit-keyframes reverse {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+  }
+}
+
 #firstPortrait {
   -webkit-animation-name:             rotate;
   -webkit-animation-duration:         0.5s;
@@ -282,17 +269,34 @@ body, html {
 
 #thirdPortrait {
   -webkit-animation-name:             rotate;
-  -webkit-animation-duration:         1.5s;
+  -webkit-animation-duration:         2s;
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
   -moz-transform/animation-name:             rotate;
-  -moz-transform/animation-duration:         1.5s;
+  -moz-transform/animation-duration:         2s;
   -moz-transform/animation-iteration-count:  infinite;
   -moz-transform/animation-timing-function:  linear;
 
   -ms-transform/animation-name:             rotate;
-  -ms-transform/animation-duration:         1.5s;
+  -ms-transform/animation-duration:         2s;
+  -ms-transform/animation-iteration-count:  infinite;
+  -ms-transform/animation-timing-function:  linear;
+}
+
+#fourthPortrait {
+  -webkit-animation-name:             reverse;
+  -webkit-animation-duration:         50s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-transform/animation-name:             reverse;
+  -moz-transform/animation-duration:         50s;
+  -moz-transform/animation-iteration-count:  infinite;
+  -moz-transform/animation-timing-function:  linear;
+
+  -ms-transform/animation-name:             reverse;
+  -ms-transform/animation-duration:         50s;
   -ms-transform/animation-iteration-count:  infinite;
   -ms-transform/animation-timing-function:  linear;
 }
