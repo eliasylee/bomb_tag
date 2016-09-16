@@ -57,6 +57,7 @@ body, html {
   width: 100vw;
   height: 100vh;
   font-family: 'Open Sans Condensed', sans-serif;
+  color: #fff;
   background-color: black;
   display: flex;
   flex-direction: column;
@@ -65,7 +66,22 @@ body, html {
   z-index: 1;
 }
 
+.gameTitle {
+  font-size: 150px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
+}
 
+#bomb {
+  height: 125px;
+  width: 125px;
+}
 
 /* Game Screen */
 
@@ -151,6 +167,11 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
 }
 
 .logoNameBox > div {
@@ -203,6 +224,11 @@ body, html {
   font-size: 30px;
   color: #fff;
   margin-bottom: 20px;
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
 }
 
 #firstPortrait,
@@ -239,15 +265,15 @@ body, html {
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
-  -moz-transform/animation-name:             rotate;
-  -moz-transform/animation-duration:         0.5s;
-  -moz-transform/animation-iteration-count:  infinite;
-  -moz-transform/animation-timing-function:  linear;
+  -moz-animation-name:             rotate;
+  -moz-animation-duration:         0.5s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
 
-  -ms-transform/animation-name:             rotate;
-  -ms-transform/animation-duration:         0.5s;
-  -ms-transform/animation-iteration-count:  infinite;
-  -ms-transform/animation-timing-function:  linear;
+  -ms-animation-name:             rotate;
+  -ms-animation-duration:         0.5s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
 }
 
 #secondPortrait {
@@ -256,15 +282,15 @@ body, html {
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
-  -moz-transform/animation-name:             rotate;
-  -moz-transform/animation-duration:         1.0s;
-  -moz-transform/animation-iteration-count:  infinite;
-  -moz-transform/animation-timing-function:  linear;
+  -moz-animation-name:             rotate;
+  -moz-animation-duration:         1.0s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
 
-  -ms-transform/animation-name:             rotate;
-  -ms-transform/animation-duration:         1.0s;
-  -ms-transform/animation-iteration-count:  infinite;
-  -ms-transform/animation-timing-function:  linear;
+  -ms-animation-name:             rotate;
+  -ms-animation-duration:         1.0s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
 }
 
 #thirdPortrait {
@@ -273,15 +299,15 @@ body, html {
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
-  -moz-transform/animation-name:             rotate;
-  -moz-transform/animation-duration:         2s;
-  -moz-transform/animation-iteration-count:  infinite;
-  -moz-transform/animation-timing-function:  linear;
+  -moz-animation-name:             rotate;
+  -moz-animation-duration:         2s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
 
-  -ms-transform/animation-name:             rotate;
-  -ms-transform/animation-duration:         2s;
-  -ms-transform/animation-iteration-count:  infinite;
-  -ms-transform/animation-timing-function:  linear;
+  -ms-animation-name:             rotate;
+  -ms-animation-duration:         2s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
 }
 
 #fourthPortrait {
@@ -290,15 +316,55 @@ body, html {
   -webkit-animation-iteration-count:  infinite;
   -webkit-animation-timing-function:  linear;
 
-  -moz-transform/animation-name:             reverse;
-  -moz-transform/animation-duration:         50s;
-  -moz-transform/animation-iteration-count:  infinite;
-  -moz-transform/animation-timing-function:  linear;
+  -moz-animation-name:             reverse;
+  -moz-animation-duration:         50s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
 
-  -ms-transform/animation-name:             reverse;
-  -ms-transform/animation-duration:         50s;
-  -ms-transform/animation-iteration-count:  infinite;
-  -ms-transform/animation-timing-function:  linear;
+  -ms-animation-name:             reverse;
+  -ms-animation-duration:         50s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
+}
+
+@-webkit-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-moz-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-ms-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@-o-keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
+}
+
+@keyframes color-change {
+  0% { color: #00ff99; }
+  25% { color: #ff66ff; }
+  50% { color: #0099ff; }
+  75% { color: #ffff66; }
+  100% { color: #00ff99; }
 }
 
 #continueBox {
@@ -319,5 +385,11 @@ body, html {
   align-items: center;
   font-size: 30px;
   font-weight: bold;
-  color: #fff;
+  color: #00ff99;
+
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
 }
