@@ -85,13 +85,19 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = function () {
-	  function Game(height, width) {
+	  function Game(height, width, ctx) {
 	    _classCallCheck(this, Game);
+	
+	    this.ctx = ctx;
 	
 	    this.chars = [];
 	    this.removedChars = [];
 	    this.features = [];
 	    this.gameOver = false;
+	
+	    this.charDestroyed = false;
+	    this.destroyedSpot = [0, 0];
+	    this.displayBomb = 0;
 	
 	    this.addFeatures();
 	    this.addChars();
@@ -99,6 +105,7 @@
 	
 	    this.width = width;
 	    this.height = height;
+	    this.renderBomb = this.renderBomb.bind(this);
 	  }
 	
 	  _createClass(Game, [{
@@ -125,13 +132,18 @@
 	        if (char.bomb) {
 	          _this.removedChars.push(char);
 	
+	          _this.charDestroyed = true;
+	          _this.destroyedSpot = char.pos;
+	
 	          var idx = _this.chars.indexOf(char);
 	          _this.chars.splice(idx, 1);
 	
 	          if (_this.chars.length > 1) {
 	            setTimeout(_this.placeBomb.bind(_this), 1000);
 	          } else {
-	            _this.gameOver = true;
+	            setTimeout(function () {
+	              _this.gameOver = true;
+	            }, 1000);
 	          }
 	        }
 	      });
@@ -150,6 +162,25 @@
 	      this.features.forEach(function (feature) {
 	        feature.draw(ctx);
 	      });
+	
+	      if (this.charDestroyed) {
+	        this.renderBomb();
+	      }
+	    }
+	  }, {
+	    key: 'renderBomb',
+	    value: function renderBomb() {
+	      if (this.displayBomb < 30) {
+	        var pos = this.destroyedSpot;
+	        var img = document.getElementById("explosion");
+	        this.ctx.drawImage(img, pos[0] - 25, pos[1] - 25, 100, 100);
+	
+	        this.displayBomb += 1;
+	      } else {
+	        this.charDestroyed = false;
+	        this.destroyedSpot = [0, 0];
+	        this.displayBomb = 0;
+	      }
 	    }
 	  }, {
 	    key: 'checkCollisions',
@@ -500,10 +531,10 @@
 	        this.vel[0] += 10;
 	      }
 	
-	      if (this.vel[0] > 15) {
-	        this.vel[0] = 15;
-	      } else if (this.vel[0] < -15) {
-	        this.vel[0] = -15;
+	      if (this.vel[0] > 13) {
+	        this.vel[0] = 13;
+	      } else if (this.vel[0] < -13) {
+	        this.vel[0] = -13;
 	      }
 	
 	      if (this.canJump && this.upPressed) {
@@ -627,9 +658,8 @@
 	    this.canvas = document.getElementById("game-canvas");
 	    this.canvas.height = 705;
 	    this.canvas.width = 1265;
-	
-	    this.game = new _game2.default(705, 1265);
 	    this.ctx = this.canvas.getContext('2d');
+	    this.game = new _game2.default(705, 1265, this.ctx);
 	
 	    this.p1 = this.game.chars[0];
 	    this.p2 = this.game.chars[1];
@@ -680,7 +710,7 @@
 	      var preGame = document.getElementById('pre-game');
 	      preGame.className = "hidden";
 	
-	      this.game = new _game2.default(705, 1265);
+	      this.game = new _game2.default(705, 1265, this.ctx);
 	
 	      this.p1 = this.game.chars[0];
 	      this.p2 = this.game.chars[1];

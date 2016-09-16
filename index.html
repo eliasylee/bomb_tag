@@ -32,8 +32,8 @@
             <div class="jump">Jump</div>
             <div class="upArrow">^</div>
             <div class="sideArrows">
-              <div class="leftArrow"><</div>
-              <div class="rightArrow">></div>
+              <div class="sideArrow leftArrow"><</div>
+              <div class="sideArrow rightArrow">></div>
             </div>
             <div class="jump">Move</div>
           </div>
@@ -129,8 +129,6 @@
       <canvas id="game-canvas"></canvas>
     </div>
     <img id="bomb" src='./public/bomb.png'></img>
-    <input type="text" onkeydown="this.keyDownHandler(event)">
-    <input type="text" onkeydown="this.keySpaceHandler(event)">
-    <input type="text" onkeyup="this.keyUpHandler(event)">
+    <img id="explosion" src="./public/explosion.png" />
   </body>
 </html>

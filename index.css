@@ -301,6 +301,17 @@ li {
 .sideArrows {
   display: flex;
   justify-content: space-around;
+}
+
+.leftArrow {
+  -webkit-animation: color-change 2.5s infinite;
+  -moz-animation: color-change 2.5s infinite;
+  -o-animation: color-change 2.5s infinite;
+  -ms-animation: color-change 2.5s infinite;
+  animation: color-change 2.5s infinite;
+}
+
+.rightArrow {
   -webkit-animation: color-change 3s infinite;
   -moz-animation: color-change 3s infinite;
   -o-animation: color-change 3s infinite;
