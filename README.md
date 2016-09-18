@@ -121,8 +121,8 @@ Characters are currently colored boxes. There is a lot of potential here for uni
 
 ### Scores and Rounds
 
-Currently, each game round is independent, leaving long-term playability of the game low. A possible fix in the future is to integrate users and allow for separate sessions where players play multiple rounds together to win points and eventually with the game session. This, of course, would require either LAN functionality, which is unideal, or WebSocket integration, which would be best.
+Currently, each game round is independent, leaving long-term playability of the game limited. A possible fix in the future is to integrate users and allow for separate sessions where players play multiple rounds together to win points and eventually with the game session. This, of course, would require either local play functionality, which is unideal, or WebSocket integration, which would be better.
 
-### Physics Engine???
+### Physics Engine
 
-The current physics "engine" is for the most part functional, but occasionally buggy. An obvious option would be to refactor the game towards using a physics engine library. However, certain unintended side-effects within Bomb Tag are, in my opinion, additions to the game that would be better left in.
+The current physics "engine" is for the most part functional, but occasionally buggy. An obvious option would be to refactor the game towards using a physics engine library. However, certain unintended side-effects within Bomb Tag are, in my opinion, additions to the game that would be better left in. Still, integrating a physics engine is a possibility for the distant future.
