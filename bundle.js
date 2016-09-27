@@ -607,7 +607,7 @@
 	
 	    this.border = '#697A82';
 	    this.pos = pos;
-	    this.count = Math.floor(Math.random(0, 1) * 40);
+	    this.count = Math.floor(Math.random(0, 1) * 200);
 	  }
 	
 	  _createClass(Feature, [{
@@ -626,17 +626,17 @@
 	    value: function randomColor() {
 	      var color = void 0;
 	
-	      if (this.count >= 40) {
+	      if (this.count >= 200) {
 	        this.count = 0;
 	      }
 	
-	      if (this.count < 10) {
+	      if (this.count < 50) {
 	        color = COLORS[0];
-	      } else if (this.count < 20) {
+	      } else if (this.count < 100) {
 	        color = COLORS[1];
-	      } else if (this.count < 30) {
+	      } else if (this.count < 150) {
 	        color = COLORS[2];
-	      } else if (this.count < 40) {
+	      } else if (this.count < 200) {
 	        color = COLORS[3];
 	      }
 	
