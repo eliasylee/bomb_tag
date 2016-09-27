@@ -589,7 +589,7 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -599,25 +599,50 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var COLORS = ["#00ff99", "#ff66ff", "#0099ff", "#ffff66"];
+	
 	var Feature = function () {
 	  function Feature(pos) {
 	    _classCallCheck(this, Feature);
 	
-	    this.color = '#4E5D62';
 	    this.border = '#697A82';
 	    this.pos = pos;
+	    this.count = Math.floor(Math.random(0, 1) * 40);
 	  }
 	
 	  _createClass(Feature, [{
-	    key: 'draw',
+	    key: "draw",
 	    value: function draw(ctx) {
 	      ctx.beginPath();
 	      ctx.rect(this.pos[0], this.pos[1], 65, 65);
-	      ctx.fillStyle = this.color;
+	      ctx.fillStyle = this.randomColor();
 	      ctx.fill();
 	      ctx.lineWidth = 5;
 	      ctx.strokeStyle = this.border;
 	      ctx.stroke();
+	    }
+	  }, {
+	    key: "randomColor",
+	    value: function randomColor() {
+	      var color = void 0;
+	
+	      if (this.count >= 40) {
+	        this.count = 0;
+	      }
+	
+	      if (this.count < 10) {
+	        color = COLORS[0];
+	      } else if (this.count < 20) {
+	        color = COLORS[1];
+	      } else if (this.count < 30) {
+	        color = COLORS[2];
+	      } else if (this.count < 40) {
+	        color = COLORS[3];
+	      }
+	
+	      this.count += 1;
+	
+	      return color;
 	    }
 	  }]);
 	
