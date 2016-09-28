@@ -184,12 +184,13 @@ body, html {
   font-weight: bold;
 }
 
-ol {
+.list {
   margin-top: 5px;
+  margin-left: 25%;
 }
 
 li {
-  display: flex;
+  display: flex;3
   justify-content: flex-start;
   align-items: center;
 }
@@ -401,11 +402,69 @@ li {
   width: 220px;
 }
 
-.outerBoxFour {
-  margin-left: 300px !important;
+.outerBox > :nth-child(2) {
+  border: 10px solid #F6F7F9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.outerBox > :nth-child(2) {
+.outerBoxFour {
+  margin-left: 300px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.score {
+  height: 100px;
+  width: 220px;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  -webkit-animation: border-change 8s infinite;
+  -moz-animation: border-change 8s infinite;
+  -o-animation: border-change 8s infinite;
+  -ms-animation: border-change 8s infinite;
+  animation: border-change 8s infinite;
+}
+
+.streakTitles, .streakNumbers {
+  margin-top: 5px;
+  font-weight: bold;
+  display: flex;
+}
+
+.streakNumbers {
+  margin-top: 0px;
+  font-size: 50px;
+}
+
+.longestStreak,
+.currentStreak {
+  width: 50%;
+  text-align: center;
+}
+
+#longestStreak,
+#currentStreak {
+  width: 50%;
+  display: flex;
+  flex-direction: center;
+  justify-content: center;
+  text-align: center;
+  -webkit-animation: color-change 8s infinite;
+  -moz-animation: color-change 8s infinite;
+  -o-animation: color-change 8s infinite;
+  -ms-animation: color-change 8s infinite;
+  animation: color-change 8s infinite;
+}
+
+.fourthPlaceBox {
   border: 10px solid #F6F7F9;
   border-radius: 10px;
   display: flex;

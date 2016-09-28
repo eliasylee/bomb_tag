@@ -94,6 +94,7 @@
 	    this.removedChars = [];
 	    this.features = [];
 	    this.gameOver = false;
+	    this.background = Math.floor(Math.random(0, 1) * 160);
 	
 	    this.charDestroyed = false;
 	    this.destroyedSpot = [0, 0];
@@ -155,6 +156,8 @@
 	      ctx.fillStyle = 'black';
 	      ctx.fillRect(0, 0, this.width, this.height);
 	
+	      this.drawBackground(ctx);
+	
 	      this.chars.forEach(function (char) {
 	        char.draw(ctx);
 	      });
@@ -166,6 +169,28 @@
 	      if (this.charDestroyed) {
 	        this.renderBomb();
 	      }
+	    }
+	  }, {
+	    key: 'drawBackground',
+	    value: function drawBackground(ctx) {
+	      var background = new Image();
+	
+	      if (this.background >= 160) {
+	        this.background = 0;
+	      }
+	
+	      if (this.background < 40) {
+	        background.src = './public/logo-blue.png';
+	      } else if (this.background < 80) {
+	        background.src = './public/logo-green.png';
+	      } else if (this.background < 120) {
+	        background.src = './public/logo-pink.png';
+	      } else if (this.background < 160) {
+	        background.src = './public/logo-yellow.png';
+	      }
+	
+	      this.background += 1;
+	      ctx.drawImage(background, 455, 300, 353, 81);
 	    }
 	  }, {
 	    key: 'renderBomb',
@@ -607,7 +632,6 @@
 	
 	    this.border = '#697A82';
 	    this.pos = pos;
-	    this.count = Math.floor(Math.random(0, 1) * 200);
 	  }
 	
 	  _createClass(Feature, [{
@@ -615,35 +639,35 @@
 	    value: function draw(ctx) {
 	      ctx.beginPath();
 	      ctx.rect(this.pos[0], this.pos[1], 65, 65);
-	      ctx.fillStyle = this.randomColor();
+	      ctx.fillStyle = "#000";
 	      ctx.fill();
 	      ctx.lineWidth = 5;
 	      ctx.strokeStyle = this.border;
 	      ctx.stroke();
 	    }
-	  }, {
-	    key: "randomColor",
-	    value: function randomColor() {
-	      var color = void 0;
 	
-	      if (this.count >= 200) {
-	        this.count = 0;
-	      }
+	    // randomColor () {
+	    //   let color;
+	    //
+	    //   if (this.count >= 200) {
+	    //     this.count = 0;
+	    //   }
+	    //
+	    //   if (this.count < 50) {
+	    //     color = COLORS[0];
+	    //   } else if (this.count < 100) {
+	    //     color = COLORS[1];
+	    //   } else if (this.count < 150) {
+	    //     color = COLORS[2];
+	    //   } else if (this.count < 200) {
+	    //     color = COLORS[3];
+	    //   }
+	    //
+	    //   this.count += 1;
+	    //
+	    //   return "#000";
+	    // }
 	
-	      if (this.count < 50) {
-	        color = COLORS[0];
-	      } else if (this.count < 100) {
-	        color = COLORS[1];
-	      } else if (this.count < 150) {
-	        color = COLORS[2];
-	      } else if (this.count < 200) {
-	        color = COLORS[3];
-	      }
-	
-	      this.count += 1;
-	
-	      return color;
-	    }
 	  }]);
 	
 	  return Feature;
@@ -676,6 +700,8 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
+	
 	var GameView = function () {
 	  function GameView() {
 	    _classCallCheck(this, GameView);
@@ -685,6 +711,8 @@
 	    this.canvas.width = 1265;
 	    this.ctx = this.canvas.getContext('2d');
 	    this.game = new _game2.default(705, 1265, this.ctx);
+	    this.longestStreak = 0;
+	    this.currentStreak = 0;
 	
 	    this.p1 = this.game.chars[0];
 	    this.p2 = this.game.chars[1];
@@ -822,6 +850,21 @@
 	    value: function endScreen() {
 	      var places = this.game.removedChars;
 	
+	      if (places[3].player === "P1") {
+	        this.currentStreak += 1;
+	        if (this.currentStreak > this.longestStreak) {
+	          this.longestStreak = this.currentStreak;
+	        }
+	      } else {
+	        this.currentStreak = 0;
+	      }
+	
+	      var longestStreak = document.getElementById('longestStreak');
+	      var currentStreak = document.getElementById('currentStreak');
+	
+	      longestStreak.innerHTML = this.longestStreak;
+	      currentStreak.innerHTML = this.currentStreak;
+	
 	      var postGame = document.getElementById('post-game');
 	
 	      var firstPortrait = document.getElementById('firstPortrait');
@@ -850,8 +893,6 @@
 	
 	  return GameView;
 	}();
-	
-	var AI_MOVES = [[-10, 0], [10, 0], [0, -20]];
 	
 	exports.default = GameView;
 
